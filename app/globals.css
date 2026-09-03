@@ -1,0 +1,59 @@
+@import "tailwindcss";
+
+@theme {
+  --font-serif: 'Cinzel', serif, Georgia;
+  --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --color-gold: #D4AF37;
+  --color-gold-light: #F3E5AB;
+  --color-gold-dark: #997A15;
+  --color-charcoal: #121212;
+  --color-charcoal-card: #1A1A1A;
+  --color-charcoal-surface: #242424;
+}
+
+:root {
+  color-scheme: dark;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: #121212;
+  color: #F4F4F5;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, .font-display {
+  font-family: var(--font-serif);
+  letter-spacing: 0.02em;
+}
+
+.gold-glow {
+  box-shadow: 0 0 15px rgba(212, 175, 55, 0.2);
+}
+
+.gold-gradient {
+  background: linear-gradient(135deg, #D4AF37 0%, #B69121 100%);
+}
+
+.gold-gradient:hover {
+  background: linear-gradient(135deg, #E2BD48 0%, #C89F2A 100%);
+}
+
+.glass {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(10px);
+}
+
+.bg-gold-gradient {
+  background: linear-gradient(135deg, #D4AF37 0%, #B69121 100%);
+}
+
+.bg-gold-gradient-hover:hover {
+  background: linear-gradient(135deg, #E2BD48 0%, #C89F2A 100%);
+}
+
+.text-gold-gradient {
+  background: linear-gradient(135deg, #F9F0CD 0%, #D4AF37 60%, #AA820A 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}

@@ -1,0 +1,6 @@
+{
+  "name": "Umami World Kitchen - Telford Branch",
+  "description": "Production-ready, mobile-first frontend prototype for Umami World Kitchen Telford buffet with live dietary filters, review slider, instant booking engine, and dark luxury aesthetic.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
