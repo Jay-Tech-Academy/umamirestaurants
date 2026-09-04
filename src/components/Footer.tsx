@@ -1,8 +1,9 @@
 import React from 'react';
-import { UtensilsCrossed, MapPin, Phone, Mail, Clock, ShieldCheck, Heart, ArrowUp, ExternalLink, Globe } from 'lucide-react';
+import { UtensilsCrossed, MapPin, Phone, Mail, Clock, ShieldCheck, Heart, ArrowUp, ExternalLink, Globe, Layers, Sparkles } from 'lucide-react';
 import { BRANCH_INFO, UK_BRANCHES_DATA, BranchLocation } from '../data/restaurantData';
 import { ActiveView } from './Navbar';
 import { LegalTab } from './LegalModal';
+import { Logo } from './Logo';
 
 interface FooterProps {
   onOpenBooking: () => void;
@@ -33,37 +34,40 @@ export const Footer: React.FC<FooterProps> = ({
   return (
     <footer className="bg-[#0c0c0c] text-neutral-400 border-t border-white/10 pt-16 pb-28 lg:pb-16 text-xs">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* National Branch Showcase Banner */}
+        {/* National Branch Showcase Banner with Expansion Vision */}
         <div className="p-6 sm:p-8 rounded-2xl glass border border-white/10 mb-16 shadow-2xl">
           <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
             <div className="max-w-xl">
               <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#D4AF37]/10 border border-[#D4AF37]/30 text-[#D4AF37] text-[10px] font-black uppercase tracking-widest mb-2">
                 <Globe className="w-3 h-3" />
-                <span>National Hospitality Network</span>
+                <span>Multi-Location Hospitality Platform</span>
               </div>
               <h3 className="text-xl sm:text-2xl font-extrabold text-white uppercase tracking-tight">
-                Explore Our UK Branch Locations
+                UK Branch Network &amp; Expansion Vision
               </h3>
-              <p className="mt-1 text-neutral-400 text-xs sm:text-sm leading-relaxed">
-                Same unlimited buffet excellence, live cooking stations, and halal-certified kitchens across England.
+              <p className="mt-1 text-neutral-300 text-xs sm:text-sm leading-relaxed">
+                Telford Southwater serves as our operational flagship. This exact high-performance digital architecture is engineered to seamlessly power sister branches in <span className="text-white font-semibold">Leicester (Highcross)</span> and <span className="text-white font-semibold">Blackpool (Bank Hey St)</span>.
               </p>
-              <button
-                type="button"
-                onClick={() => handleNav('locations')}
-                className="mt-3 text-xs font-bold text-[#D4AF37] hover:underline uppercase tracking-wider inline-flex items-center gap-1 cursor-pointer"
-              >
-                <span>View Full Branch Network & Directions →</span>
-              </button>
+              
+              <div className="mt-3 flex flex-wrap items-center gap-3">
+                <button
+                  type="button"
+                  onClick={() => handleNav('locations')}
+                  className="text-xs font-bold text-[#D4AF37] hover:underline uppercase tracking-wider inline-flex items-center gap-1 cursor-pointer"
+                >
+                  <span>Explore All UK Branches &amp; Parking Guides →</span>
+                </button>
+              </div>
             </div>
 
             {/* Branch Quick Cards */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-              {UK_BRANCHES_DATA.slice(0, 3).map((branch) => (
+              {UK_BRANCHES_DATA.map((branch) => (
                 <div
                   key={branch.id}
                   className={`p-4 rounded-xl border transition-all group cursor-pointer ${
                     branch.isCurrent
-                      ? 'bg-[#D4AF37]/10 border-[#D4AF37]/40 shadow-lg'
+                      ? 'bg-[#D4AF37]/15 border-[#D4AF37]/50 shadow-lg'
                       : 'bg-neutral-900/80 border-white/10 hover:border-[#D4AF37]/50'
                   }`}
                   onClick={() => handleNav('locations')}
@@ -74,15 +78,16 @@ export const Footer: React.FC<FooterProps> = ({
                     </span>
                     {branch.isCurrent ? (
                       <span className="text-[9px] bg-[#D4AF37] text-black font-black uppercase px-1.5 py-0.5 rounded">
-                        Active
+                        Telford Hub
                       </span>
                     ) : (
-                      <span className="text-[10px] text-emerald-400 font-bold uppercase tracking-wider">
-                        {branch.status}
+                      <span className="text-[9px] text-[#D4AF37] bg-white/5 border border-[#D4AF37]/30 font-bold uppercase px-1.5 py-0.5 rounded">
+                        Replicable
                       </span>
                     )}
                   </div>
                   <span className="text-neutral-400 text-[11px] block">{branch.city} • {branch.postcode}</span>
+                  <span className="text-[10px] text-neutral-500 block mt-1 truncate">{branch.address}</span>
                 </div>
               ))}
             </div>
@@ -93,18 +98,12 @@ export const Footer: React.FC<FooterProps> = ({
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 pb-12 border-b border-white/10">
           {/* Brand Col */}
           <div className="lg:col-span-2 space-y-4">
-            <div className="flex items-center gap-2.5 cursor-pointer" onClick={() => handleNav('home')}>
-              <div className="w-10 h-10 rounded-lg gold-gradient flex items-center justify-center text-black font-black">
-                <UtensilsCrossed className="w-5 h-5 text-black" />
-              </div>
-              <div>
-                <span className="text-lg font-black text-white tracking-widest block uppercase">
-                  UMAMI
-                </span>
-                <span className="text-[9px] uppercase tracking-widest text-[#D4AF37] font-extrabold">
-                  World Kitchen • Telford
-                </span>
-              </div>
+            <div className="cursor-pointer" onClick={() => handleNav('home')}>
+              <Logo 
+                size="md" 
+                showSubtitle={true} 
+                branchSubtitle="Telford Flagship • Southwater" 
+              />
             </div>
             <p className="text-neutral-400 leading-relaxed text-xs max-w-sm">
               Telford’s premier destination for unlimited global dining. 100+ dishes prepared live across 6 culinary stages: Japanese Teppanyaki, Authentic Indian Tandoor, Italian Pizzas, World of Asia, and British Carvery.
@@ -297,15 +296,16 @@ export const Footer: React.FC<FooterProps> = ({
           </div>
 
           {/* Explicit User Designer Credit */}
-          <div className="text-neutral-400">
-            Web designed by{' '}
+          <div className="text-neutral-300 text-xs flex items-center gap-1.5 bg-black/40 px-3 py-1 rounded-full border border-white/5">
+            <span>Web designed by</span>
             <a
               href="https://jamie-techs.github.io/My-Website/"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-[#D4AF37] hover:text-white font-bold underline transition-colors"
+              className="text-[#D4AF37] hover:text-white font-bold underline underline-offset-4 decoration-[#D4AF37]/60 hover:decoration-white transition-all flex items-center gap-1"
             >
-              Jay Tech
+              <span>Jay Tech</span>
+              <ExternalLink className="w-3 h-3 text-[#D4AF37]" />
             </a>
           </div>
 

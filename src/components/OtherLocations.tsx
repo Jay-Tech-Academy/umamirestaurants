@@ -517,6 +517,67 @@ export const OtherLocations: React.FC<OtherLocationsProps> = ({
             </div>
           </div>
         )}
+
+        {/* Multi-Location Expansion Vision Banner */}
+        <div className="mt-14 p-6 sm:p-8 rounded-2xl glass border border-[#D4AF37]/30 shadow-xl">
+          <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+            <div className="space-y-2">
+              <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-[#D4AF37]/10 text-[#D4AF37] text-[10px] font-black uppercase tracking-widest border border-[#D4AF37]/20">
+                <Sparkles className="w-3 h-3" />
+                <span>Scalable Digital Architecture</span>
+              </div>
+              <h3 className="text-lg sm:text-xl font-extrabold text-white uppercase tracking-tight">
+                Replicating Excellence Across the UK
+              </h3>
+              <p className="text-xs sm:text-sm text-neutral-400 max-w-2xl leading-relaxed">
+                Our high-speed reservation engine, allergen filtering, and live kitchen staging are built to scale seamlessly across sister branches in <span className="text-white font-semibold">Leicester (Highcross)</span> and <span className="text-white font-semibold">Blackpool (Bank Hey St)</span>.
+              </p>
+            </div>
+
+            <div className="flex flex-wrap items-center gap-3">
+              {onNavigateMenu && (
+                <button
+                  type="button"
+                  onClick={onNavigateMenu}
+                  className="px-4 py-2.5 rounded-xl glass text-xs font-bold text-neutral-200 hover:text-white border border-white/10 transition-colors cursor-pointer"
+                >
+                  Explore 100+ Menu Stations
+                </button>
+              )}
+              <button
+                type="button"
+                onClick={onOpenBooking}
+                className="px-5 py-2.5 rounded-xl gold-gradient text-black text-xs font-black uppercase tracking-widest gold-glow cursor-pointer active:scale-95 transition-transform"
+              >
+                Book Flagship Table
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Bottom Page Navigation Return Bar */}
+        <div className="mt-10 pt-6 border-t border-white/10 flex flex-wrap items-center justify-between gap-4">
+          {onNavigateHome && (
+            <button
+              type="button"
+              onClick={onNavigateHome}
+              className="text-xs font-bold text-[#D4AF37] hover:underline flex items-center gap-1.5 cursor-pointer"
+            >
+              <span>← Return to Telford Flagship Home</span>
+            </button>
+          )}
+
+          <div className="flex items-center gap-4 text-xs text-neutral-500">
+            <span>Telford Southwater Square TF3 4HS</span>
+            <span>•</span>
+            <a
+              href={`tel:${BRANCH_INFO.formattedPhone}`}
+              className="hover:text-white text-neutral-400 transition-colors"
+            >
+              {BRANCH_INFO.phone}
+            </a>
+          </div>
+        </div>
       </div>
     </section>
   );

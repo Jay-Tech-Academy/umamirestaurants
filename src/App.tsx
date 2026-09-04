@@ -31,8 +31,9 @@ export default function App() {
   const [legalTab, setLegalTab] = useState<LegalTab>('privacy');
   const [selectedBranchName, setSelectedBranchName] = useState<string>('Telford (Southwater)');
 
-  // Sync title and ensure top scroll on view switch
+  // Sync title and ensure top scroll on view switch, ensuring body scroll lock is freed
   useEffect(() => {
+    document.body.style.overflow = '';
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, [activeView]);
 
@@ -43,6 +44,10 @@ export default function App() {
 
   const handleOpenLocationsPage = () => {
     setIsLocationOpen(false);
+    setIsBookingOpen(false);
+    setIsFeedbackOpen(false);
+    setIsLegalOpen(false);
+    document.body.style.overflow = '';
     setActiveView('locations');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };

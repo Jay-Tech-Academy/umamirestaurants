@@ -10,7 +10,12 @@ import {
   Phone, 
   Info, 
   ChevronRight, 
-  ChevronLeft 
+  ChevronLeft,
+  ExternalLink,
+  ShieldCheck,
+  Download,
+  Copy,
+  Check
 } from 'lucide-react';
 import { BRANCH_INFO } from '../data/restaurantData';
 
@@ -32,8 +37,11 @@ export const BookingModal: React.FC<BookingModalProps> = ({
   onOpenLocation,
   branchName = 'Telford (Southwater)',
 }) => {
+  // Booking Channel: 'instant' (on-page interactive) | 'designmynight' (portal connector)
+  const [bookingChannel, setBookingChannel] = useState<'instant' | 'designmynight'>('instant');
   // Steps: 1 = Details, 2 = Confirmation
   const [step, setStep] = useState<1 | 2>(1);
+  const [copiedRef, setCopiedRef] = useState(false);
 
   // Prevent background page from scrolling when modal is open
   useEffect(() => {
@@ -83,8 +91,40 @@ export const BookingModal: React.FC<BookingModalProps> = ({
     setStep(2);
   };
 
+  const handleCopyRef = () => {
+    if (!bookingRef) return;
+    navigator.clipboard.writeText(bookingRef);
+    setCopiedRef(true);
+    setTimeout(() => setCopiedRef(false), 2000);
+  };
+
+  const handleDownloadCalendar = () => {
+    const icsContent = `BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Umami World Kitchen//Table Reservation//EN
+BEGIN:VEVENT
+UID:${bookingRef || 'umami-telford'}@umamiworldkitchen.com
+DTSTAMP:${new Date().toISOString().replace(/[-:]/g, '').split('.')[0]}Z
+DTSTART:${selectedDate.replace(/-/g, '')}T${selectedTime.replace(':', '')}00
+DTEND:${selectedDate.replace(/-/g, '')}T${(parseInt(selectedTime.split(':')[0]) + 2).toString().padStart(2, '0')}${selectedTime.split(':')[1]}00
+SUMMARY:Table at Umami World Kitchen (${branchName})
+DESCRIPTION:Table reservation for ${adults} adults. Ref: ${bookingRef}. Sitting: ${sittingType}. Address: Unit 1, Southwater Square, Telford TF3 4HS.
+LOCATION:Unit 1, Southwater Square, Telford TF3 4HS
+END:VEVENT
+END:VCALENDAR`;
+
+    const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
+    const link = document.createElement('a');
+    link.href = window.URL.createObjectURL(blob);
+    link.setAttribute('download', `Umami-Reservation-${selectedDate}.ics`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   const resetAndClose = () => {
     setStep(1);
+    setBookingChannel('instant');
     onClose();
   };
 
@@ -94,21 +134,21 @@ export const BookingModal: React.FC<BookingModalProps> = ({
       onClick={resetAndClose}
     >
       <div 
-        className="relative w-full max-w-2xl bg-[#121212] border border-[#D4AF37]/50 rounded-xl shadow-2xl shadow-black overflow-hidden my-auto max-h-[92vh] flex flex-col"
+        className="relative w-full max-w-2xl bg-[#121212] border border-[#D4AF37]/50 rounded-2xl shadow-2xl shadow-black overflow-hidden my-auto max-h-[92vh] flex flex-col"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Top Header */}
         <div className="px-6 py-4 border-b border-white/10 bg-neutral-950 flex items-center justify-between">
           <div className="flex items-center gap-2.5">
             <div className="w-8 h-8 rounded-lg gold-gradient flex items-center justify-center text-black font-bold">
-              <Calendar className="w-4 h-4 text-black" />
+              <Calendar className="w-4 h-4 text-black stroke-[2.5]" />
             </div>
             <div>
               <h3 className="text-base sm:text-lg font-extrabold text-white leading-tight uppercase tracking-tight">
-                {step === 1 ? 'Instant Table Booking' : 'Booking Confirmed!'}
+                {step === 1 ? 'Reserve Your Table' : 'Reservation Confirmed!'}
               </h3>
               <p className="text-xs text-[#D4AF37] font-medium">
-                Umami World Kitchen • {branchName}
+                Umami World Kitchen • {branchName} (TF3 4HS)
               </p>
             </div>
           </div>
@@ -122,9 +162,108 @@ export const BookingModal: React.FC<BookingModalProps> = ({
           </button>
         </div>
 
+        {/* Integration Connection Switcher (DesignMyNight vs Instant Engine) */}
+        {step === 1 && (
+          <div className="px-6 pt-3 pb-1 bg-neutral-900/60 border-b border-white/5 flex items-center justify-between gap-2">
+            <div className="flex items-center gap-2 text-xs">
+              <button
+                type="button"
+                onClick={() => setBookingChannel('instant')}
+                className={`px-3 py-1.5 rounded-lg font-bold text-xs transition-all cursor-pointer flex items-center gap-1.5 ${
+                  bookingChannel === 'instant'
+                    ? 'bg-[#D4AF37] text-black shadow-md'
+                    : 'bg-neutral-800/80 text-neutral-400 hover:text-white'
+                }`}
+              >
+                <Sparkles className="w-3.5 h-3.5" />
+                <span>Instant 30-Sec Reservation</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setBookingChannel('designmynight')}
+                className={`px-3 py-1.5 rounded-lg font-bold text-xs transition-all cursor-pointer flex items-center gap-1.5 ${
+                  bookingChannel === 'designmynight'
+                    ? 'bg-[#D4AF37] text-black shadow-md'
+                    : 'bg-neutral-800/80 text-neutral-400 hover:text-white'
+                }`}
+              >
+                <ExternalLink className="w-3.5 h-3.5" />
+                <span>DesignMyNight Portal</span>
+              </button>
+            </div>
+
+            <div className="hidden sm:flex items-center gap-1 text-[10px] text-neutral-400">
+              <ShieldCheck className="w-3 h-3 text-emerald-400" />
+              <span>Official Partner Integration</span>
+            </div>
+          </div>
+        )}
+
         {/* Modal Scrollable Body */}
         <div className="p-6 overflow-y-auto flex-1 text-neutral-200">
-          {step === 1 ? (
+          {step === 1 && bookingChannel === 'designmynight' ? (
+            /* DesignMyNight Portal Bridge View */
+            <div className="py-4 space-y-6">
+              <div className="p-6 rounded-2xl bg-gradient-to-br from-neutral-900 to-black border border-[#D4AF37]/40 shadow-xl text-center space-y-4">
+                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#D4AF37]/10 border border-[#D4AF37]/30 text-[#D4AF37] text-xs font-bold uppercase tracking-wider">
+                  <span>Verified Integration Partner</span>
+                </div>
+
+                <h3 className="text-xl sm:text-2xl font-black text-white uppercase tracking-tight">
+                  DesignMyNight Live Reservation Portal
+                </h3>
+
+                <p className="text-neutral-300 text-xs sm:text-sm max-w-md mx-auto leading-relaxed">
+                  Book directly through our official DesignMyNight portal for Umami World Kitchen Telford. Seamless instant allocation with your DesignMyNight or Collins account.
+                </p>
+
+                {/* Portal Specs Box */}
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-left max-w-md mx-auto pt-2">
+                  <div className="p-3 rounded-lg bg-black/50 border border-white/10">
+                    <span className="text-[10px] text-neutral-500 uppercase font-bold block">Venue</span>
+                    <span className="text-xs font-bold text-white">Telford Southwater</span>
+                  </div>
+                  <div className="p-3 rounded-lg bg-black/50 border border-white/10">
+                    <span className="text-[10px] text-neutral-500 uppercase font-bold block">Live Status</span>
+                    <span className="text-xs font-bold text-emerald-400 flex items-center gap-1">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping" />
+                      Live & Accepting
+                    </span>
+                  </div>
+                  <div className="p-3 rounded-lg bg-black/50 border border-white/10">
+                    <span className="text-[10px] text-neutral-500 uppercase font-bold block">Booking Fee</span>
+                    <span className="text-xs font-bold text-[#D4AF37]">£0.00 (Free)</span>
+                  </div>
+                </div>
+
+                {/* Primary CTA to open DesignMyNight portal */}
+                <div className="pt-3">
+                  <a
+                    href={BRANCH_INFO.designMyNightUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-center gap-2 gold-gradient text-black px-8 py-4 rounded-xl font-black uppercase tracking-widest text-xs sm:text-sm gold-glow hover:opacity-95 transition-all shadow-xl cursor-pointer w-full sm:w-auto"
+                  >
+                    <span>Launch DesignMyNight Booking Portal</span>
+                    <ExternalLink className="w-4 h-4 text-black stroke-[2.5]" />
+                  </a>
+                </div>
+
+                <div className="text-[11px] text-neutral-500">
+                  Prefer on-page booking without leaving this website?{' '}
+                  <button
+                    type="button"
+                    onClick={() => setBookingChannel('instant')}
+                    className="text-[#D4AF37] font-semibold underline hover:text-white"
+                  >
+                    Use our Instant 30-Sec Booking Engine
+                  </button>
+                </div>
+              </div>
+            </div>
+          ) : step === 1 ? (
+            /* Instant VIP Booking Engine Form */
             <form onSubmit={handleSubmitBooking} className="space-y-6">
               {/* Sitting Type Switcher */}
               <div>
@@ -346,7 +485,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                     type="email"
                     value={customerEmail}
                     onChange={(e) => setCustomerEmail(e.target.value)}
-                    placeholder="Email Address (for calendar invite)"
+                    placeholder="Email Address (for instant calendar confirmation)"
                     className="w-full px-3.5 py-2.5 rounded-lg bg-neutral-900 border border-white/15 text-white text-sm placeholder-neutral-500 focus:outline-none focus:border-[#D4AF37]"
                   />
                 </div>
@@ -355,7 +494,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                     type="text"
                     value={dietaryNotes}
                     onChange={(e) => setDietaryNotes(e.target.value)}
-                    placeholder="Special requests or dietary notes (e.g. high chair required, halal only)"
+                    placeholder="Special requests: high chair, halal certified food, birthday sparkler, etc."
                     className="w-full px-3.5 py-2.5 rounded-lg bg-neutral-900 border border-white/15 text-white text-sm placeholder-neutral-500 focus:outline-none focus:border-[#D4AF37]"
                   />
                 </div>
@@ -381,9 +520,9 @@ export const BookingModal: React.FC<BookingModalProps> = ({
               {/* Submit CTA */}
               <button
                 type="submit"
-                className="w-full py-4 rounded-lg gold-gradient text-black font-black text-xs uppercase tracking-widest gold-glow flex items-center justify-center gap-2 cursor-pointer transition-transform active:scale-95"
+                className="w-full py-4 rounded-lg gold-gradient text-black font-black text-xs uppercase tracking-widest gold-glow flex items-center justify-center gap-2 cursor-pointer transition-transform active:scale-95 shadow-xl"
               >
-                <span>CONFIRM RESERVATION</span>
+                <span>CONFIRM RESERVATION NOW</span>
                 <ChevronRight className="w-4 h-4 text-black stroke-[3]" />
               </button>
             </form>
@@ -402,15 +541,26 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                   We look forward to welcoming you, {customerName}!
                 </h3>
                 <p className="text-xs text-neutral-400 mt-2">
-                  A booking confirmation has been logged for Umami World Kitchen Telford.
+                  A reservation voucher has been generated for Umami World Kitchen Telford.
                 </p>
               </div>
 
               {/* Booking Pass Card */}
               <div className="max-w-md mx-auto glass rounded-xl border border-white/10 p-5 text-left space-y-3">
                 <div className="flex justify-between items-center border-b border-white/10 pb-3">
-                  <span className="text-xs text-neutral-400">Booking Reference:</span>
-                  <span className="font-mono font-bold text-base text-[#D4AF37]">{bookingRef}</span>
+                  <div>
+                    <span className="text-[10px] text-neutral-400 uppercase font-bold block">Booking Reference</span>
+                    <span className="font-mono font-black text-lg text-[#D4AF37]">{bookingRef}</span>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={handleCopyRef}
+                    className="p-2 rounded-lg bg-neutral-800 text-neutral-300 hover:text-white flex items-center gap-1 text-xs cursor-pointer"
+                    title="Copy reference"
+                  >
+                    {copiedRef ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
+                    <span>{copiedRef ? 'Copied' : 'Copy'}</span>
+                  </button>
                 </div>
 
                 <div className="grid grid-cols-2 gap-2 text-xs">
@@ -428,7 +578,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                   </div>
                   <div>
                     <span className="text-neutral-500 block">Location:</span>
-                    <span className="font-semibold text-white">Southwater, Telford</span>
+                    <span className="font-semibold text-white">Southwater Square (TF3 4HS)</span>
                   </div>
                 </div>
 
@@ -455,6 +605,15 @@ export const BookingModal: React.FC<BookingModalProps> = ({
               <div className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto pt-2">
                 <button
                   type="button"
+                  onClick={handleDownloadCalendar}
+                  className="flex-1 py-3 rounded-lg glass hover:bg-white/10 text-white font-bold uppercase tracking-wider text-xs transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
+                >
+                  <Download className="w-3.5 h-3.5 text-[#D4AF37]" />
+                  <span>Add to Calendar</span>
+                </button>
+
+                <button
+                  type="button"
                   onClick={() => {
                     resetAndClose();
                     onOpenLocation();
@@ -462,7 +621,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                   className="flex-1 py-3 rounded-lg glass hover:bg-white/10 text-white font-bold uppercase tracking-wider text-xs transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
                 >
                   <MapPin className="w-3.5 h-3.5 text-[#D4AF37]" />
-                  <span>View Southwater Map</span>
+                  <span>View Map & Parking</span>
                 </button>
 
                 <button
@@ -480,3 +639,4 @@ export const BookingModal: React.FC<BookingModalProps> = ({
     </div>
   );
 };
+

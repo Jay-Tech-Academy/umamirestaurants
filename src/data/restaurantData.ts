@@ -82,10 +82,12 @@ export interface JobOpening {
 
 export const BRANCH_INFO = {
   name: 'Umami World Kitchen',
-  branch: 'Telford Branch',
+  branch: 'Telford Flagship Branch',
   tagline: 'Unlimited food. 100+ global flavours. One unforgettable table.',
   fullAddress: 'Unit 1, Southwater Square, Southwater, Telford TF3 4HS',
-  shortLocation: 'Southwater, Telford',
+  shortLocation: 'Southwater Square, Telford',
+  landmarks: 'Beside Cineworld, Southwater One Library & Telford Ice Rink (Opposite Southwater Lake)',
+  parkingDetails: 'Southwater Multi-Storey Car Park (Sat Nav: TF3 4EJ) — 150m walk, covered, 24/7 with EV charging',
   phone: '01952 291 110',
   formattedPhone: '+44 1952 291110',
   email: 'telford@umamiworldkitchen.com',
@@ -93,11 +95,22 @@ export const BRANCH_INFO = {
   reviewCount: '1,340+',
   pricePreview: 'From £11.99',
   postcode: 'TF3 4HS',
-  googleMapsUrl: 'https://maps.google.com/?q=Umami+World+Kitchen+Southwater+Telford+TF3+4HS',
+  parkingPostcode: 'TF3 4EJ',
+  googleMapsUrl: 'https://maps.google.com/?q=Umami+World+Kitchen+Southwater+Square+Telford+TF3+4HS',
+  designMyNightUrl: 'https://www.designmynight.com/uk/restaurants/birmingham/umami-world-kitchen-telford',
+  expansionVision: {
+    headline: 'Enterprise Multi-Branch Scalability',
+    summary: 'Engineered for seamless digital deployment across Leicester (Highcross), Blackpool (Bank Hey Street), and nationwide destinations.',
+    targetBranches: [
+      { name: 'Leicester', location: 'Highcross Shopping Centre (LE1 4SA)', status: 'Replication Ready' },
+      { name: 'Blackpool', location: '88-92 Bank Hey Street (FY1 4RY)', status: 'Replication Ready' },
+      { name: 'Coventry', location: '42 Corporation Street (CV1 1GF)', status: 'Replication Ready' },
+    ],
+  },
   otherBranches: [
-    { name: 'Leicester', status: 'Open Now', address: 'Highcross Shopping Centre' },
-    { name: 'Blackpool', status: 'Open Now', address: 'Bank Hey Street' },
-    { name: 'Coventry', status: 'Open Now', address: 'Corporation Street' },
+    { name: 'Leicester', status: 'Open Daily', address: 'Highcross Shopping Centre, LE1 4SA' },
+    { name: 'Blackpool', status: 'Open Daily', address: 'Bank Hey Street, FY1 4RY' },
+    { name: 'Coventry', status: 'Open Daily', address: 'Corporation Street, CV1 1GF' },
   ],
   sittingsInfo: [
     {
