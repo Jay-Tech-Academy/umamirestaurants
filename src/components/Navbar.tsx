@@ -50,15 +50,15 @@ export const Navbar: React.FC<NavbarProps> = ({
   return (
     <header className="sticky top-0 z-40 w-full bg-[#121212]/95 backdrop-blur-xl border-b border-white/10 transition-all">
       {/* Top micro-banner for hospitality reassurance & multi-location signpost */}
-      <div className="bg-[#0c0c0c] text-neutral-400 text-xs py-1.5 px-4 sm:px-8 border-b border-white/5">
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <span className="inline-flex items-center gap-1 text-[#D4AF37] font-semibold tracking-wider text-[11px] uppercase">
-              <Sparkles className="w-3.5 h-3.5 text-[#D4AF37]" />
+      <div className="bg-[#0c0c0c] text-neutral-400 text-xs py-1.5 px-3 sm:px-8 border-b border-white/5 overflow-hidden">
+        <div className="max-w-7xl mx-auto flex items-center justify-between gap-2 overflow-hidden">
+          <div className="flex items-center gap-1.5 sm:gap-2 min-w-0">
+            <span className="inline-flex items-center gap-1 text-[#D4AF37] font-semibold tracking-wider text-[10px] sm:text-[11px] uppercase shrink-0">
+              <Sparkles className="w-3 h-3 text-[#D4AF37]" />
               Telford Flagship
             </span>
-            <span className="text-neutral-600">•</span>
-            <span className="text-neutral-300 text-[11px]">Southwater Square TF3 4HS</span>
+            <span className="text-neutral-600 shrink-0">•</span>
+            <span className="text-neutral-300 text-[10px] sm:text-[11px] truncate">Southwater Square TF3 4HS</span>
             <span className="hidden lg:inline text-neutral-600">•</span>
             <span className="hidden lg:inline text-neutral-400 text-[11px]">
               Multi-Branch Blueprint: Ready for <span className="text-white font-medium">Leicester</span> & <span className="text-white font-medium">Blackpool</span>
@@ -66,13 +66,14 @@ export const Navbar: React.FC<NavbarProps> = ({
             <span className="hidden md:inline text-neutral-600">•</span>
             <span className="hidden md:inline text-emerald-400 font-medium text-[11px]">100% Halal Certified</span>
           </div>
-          <div className="flex items-center gap-4 text-xs">
+          <div className="flex items-center gap-2 sm:gap-4 text-xs shrink-0">
             <a
               href={`tel:${BRANCH_INFO.formattedPhone}`}
-              className="flex items-center gap-1.5 text-neutral-300 hover:text-[#D4AF37] transition-colors"
+              className="flex items-center gap-1 text-neutral-300 hover:text-[#D4AF37] transition-colors text-[10px] sm:text-xs"
             >
-              <Phone className="w-3 h-3 text-[#D4AF37]" />
-              <span className="font-medium">{BRANCH_INFO.phone}</span>
+              <Phone className="w-3 h-3 text-[#D4AF37] shrink-0" />
+              <span className="font-medium hidden sm:inline">{BRANCH_INFO.phone}</span>
+              <span className="font-medium sm:hidden">Call</span>
             </a>
             <span className="hidden sm:inline text-neutral-600">|</span>
             <span className="hidden sm:flex items-center gap-1 text-emerald-400 text-[11px]">
@@ -84,11 +85,11 @@ export const Navbar: React.FC<NavbarProps> = ({
       </div>
 
       {/* Main Navigation Bar */}
-      <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      <nav className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between gap-2 overflow-hidden">
         {/* Brand Logo & Branch Tag */}
         <div 
           onClick={() => handleNavClick('home')}
-          className="cursor-pointer group"
+          className="cursor-pointer group min-w-0 shrink"
           id="nav-brand-logo"
         >
           <Logo 
@@ -278,18 +279,19 @@ export const Navbar: React.FC<NavbarProps> = ({
           <button
             type="button"
             onClick={onOpenBooking}
-            className="gold-gradient text-black px-4 sm:px-5 py-2.5 rounded-lg font-black uppercase tracking-widest text-xs gold-glow active:scale-95 transition-transform flex items-center gap-2 cursor-pointer shadow-lg"
+            className="gold-gradient text-black px-2.5 sm:px-5 py-2 sm:py-2.5 rounded-lg font-black uppercase tracking-widest text-[11px] sm:text-xs gold-glow active:scale-95 transition-transform flex items-center gap-1.5 sm:gap-2 cursor-pointer shadow-lg shrink-0"
             id="nav-book-table-btn"
           >
-            <Calendar className="w-4 h-4 text-black stroke-[2.5]" />
-            <span className="whitespace-nowrap">BOOK A TABLE</span>
+            <Calendar className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-black stroke-[2.5] shrink-0" />
+            <span className="whitespace-nowrap hidden sm:inline">BOOK A TABLE</span>
+            <span className="whitespace-nowrap sm:hidden">BOOK</span>
           </button>
 
           {/* Mobile Menu Hamburger Toggle */}
           <button
             type="button"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="xl:hidden p-2 rounded-lg bg-white/5 hover:bg-white/10 text-neutral-300 hover:text-white transition-colors cursor-pointer border border-white/10 ml-1"
+            className="xl:hidden p-2 rounded-lg bg-white/5 hover:bg-white/10 text-neutral-300 hover:text-white transition-colors cursor-pointer border border-white/10 shrink-0"
             aria-label="Toggle Navigation Menu"
           >
             {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}

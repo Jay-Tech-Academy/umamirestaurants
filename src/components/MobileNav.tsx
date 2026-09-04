@@ -19,7 +19,7 @@ export const MobileNav: React.FC<MobileNavProps> = ({
     <nav
       id="mobile-bottom-navigation-bar"
       aria-label="Quick Mobile Navigation"
-      className="xl:hidden fixed bottom-0 left-0 right-0 z-50 bg-[#121212]/95 backdrop-blur-md border-t border-white/10 px-2 py-1.5 pb-[max(0.6rem,env(safe-area-inset-bottom))] shadow-2xl"
+      className="xl:hidden fixed bottom-0 left-0 right-0 z-40 bg-[#121212]/95 backdrop-blur-md border-t border-white/10 px-2 py-1.5 pb-[max(0.6rem,env(safe-area-inset-bottom))] shadow-2xl"
     >
       <div className="max-w-md mx-auto grid grid-cols-5 items-center gap-1">
         {/* [Menu] Button */}

@@ -58,7 +58,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#121212] text-neutral-100 flex flex-col selection:bg-[#D4AF37] selection:text-black">
+    <div className="min-h-screen bg-[#121212] text-neutral-100 flex flex-col selection:bg-[#D4AF37] selection:text-black w-full max-w-full overflow-x-hidden">
       {/* Desktop & Mobile Navigation Header */}
       <Navbar
         onOpenBooking={() => {
@@ -73,7 +73,7 @@ export default function App() {
       />
 
       {/* Main Content Area */}
-      <main className="flex-1">
+      <main className="flex-1 w-full max-w-full overflow-x-hidden">
         {activeView === 'home' && (
           <>
             {/* Hero Section */}

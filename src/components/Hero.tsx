@@ -16,7 +16,7 @@ export const Hero: React.FC<HeroProps> = ({
   return (
     <section 
       id="hero-section" 
-      className="relative min-h-[85vh] flex items-center justify-center overflow-hidden pt-10 pb-16 lg:py-20 px-4 sm:px-6 lg:px-8 border-b border-white/10"
+      className="relative min-h-[85vh] flex items-center justify-center overflow-hidden pt-10 pb-16 lg:py-20 px-4 sm:px-6 lg:px-8 border-b border-white/10 w-full max-w-full"
     >
       {/* Dark Luxury Ambient Background Glows */}
       <div 
@@ -58,7 +58,7 @@ export const Hero: React.FC<HeroProps> = ({
       {/* Content Container */}
       <div className="relative z-10 max-w-5xl mx-auto text-center flex flex-col items-center">
         {/* Status Micro-Badge */}
-        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-neutral-900/90 text-neutral-300 text-[11px] uppercase tracking-wider border border-[#D4AF37]/30 mb-6 backdrop-blur-md shadow-lg">
+        <div className="inline-flex flex-wrap items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-3.5 py-1 sm:py-1.5 rounded-full bg-neutral-900/90 text-neutral-300 text-[10px] sm:text-[11px] uppercase tracking-wider border border-[#D4AF37]/30 mb-6 backdrop-blur-md shadow-lg max-w-full text-center">
           <span className="text-[#D4AF37] font-black flex items-center gap-1">
             <Star className="w-3 h-3 fill-[#D4AF37] text-[#D4AF37]" />
             4.5/5
@@ -70,20 +70,20 @@ export const Hero: React.FC<HeroProps> = ({
         </div>
 
         {/* Required Headline */}
-        <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight text-white uppercase leading-[1.08] max-w-4xl">
+        <h1 className="text-3xl xs:text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight text-white uppercase leading-[1.08] max-w-4xl break-words px-2">
           UNLIMITED GLOBAL <br className="hidden sm:inline" />
           <span className="text-[#D4AF37]">FLAVOURS IN TELFORD</span>
         </h1>
 
         {/* Required Sub-headline */}
-        <p className="mt-4 text-neutral-300 text-base sm:text-lg md:text-xl font-normal max-w-2xl leading-relaxed">
+        <p className="mt-4 text-neutral-300 text-sm sm:text-lg md:text-xl font-normal max-w-2xl leading-relaxed px-2">
           Unlimited food. 100+ global flavours. One unforgettable table. Experience the best of World of Asia, Indian Kitchen, and Live Teppanyaki at Southwater Square.
         </p>
 
         {/* Exact Landmark & Parking Info Banner */}
-        <div className="mt-4 inline-flex flex-wrap items-center justify-center gap-2 text-xs text-neutral-400 bg-black/40 px-3.5 py-1.5 rounded-lg border border-white/5">
+        <div className="mt-4 inline-flex flex-wrap items-center justify-center gap-1.5 sm:gap-2 text-xs text-neutral-400 bg-black/40 px-3.5 py-1.5 rounded-lg border border-white/5 max-w-full text-center">
           <span className="flex items-center gap-1 text-[#D4AF37] font-semibold">
-            <MapPin className="w-3.5 h-3.5" />
+            <MapPin className="w-3.5 h-3.5 shrink-0" />
             Unit 1, Southwater Square (Beside Cineworld)
           </span>
           <span className="hidden sm:inline text-neutral-600">•</span>
@@ -91,17 +91,17 @@ export const Hero: React.FC<HeroProps> = ({
         </div>
 
         {/* Required 3 Key Info Pills / Glass Stat Cards */}
-        <div className="mt-7 flex flex-wrap items-center justify-center gap-3 sm:gap-4 max-w-3xl">
+        <div className="mt-7 grid grid-cols-2 sm:flex sm:flex-wrap items-center justify-center gap-2.5 sm:gap-4 w-full max-w-3xl px-2">
           {/* Pill 1: Pricing preview */}
           <a
             href="#pricing"
             id="hero-pill-pricing"
-            className="glass p-3.5 sm:p-4 rounded-xl border border-white/10 hover:border-[#D4AF37]/50 flex flex-col items-center min-w-[140px] transition-all group shadow-md"
+            className="glass p-3 sm:p-4 rounded-xl border border-white/10 hover:border-[#D4AF37]/50 flex flex-col items-center flex-1 sm:min-w-[130px] transition-all group shadow-md"
           >
-            <span className="text-[10px] text-neutral-400 uppercase font-bold tracking-widest group-hover:text-[#D4AF37] transition-colors">
+            <span className="text-[9px] sm:text-[10px] text-neutral-400 uppercase font-bold tracking-widest group-hover:text-[#D4AF37] transition-colors">
               Adult Buffet
             </span>
-            <span className="text-lg sm:text-xl font-bold text-white mt-0.5">From £11.99</span>
+            <span className="text-base sm:text-xl font-bold text-white mt-0.5">From £11.99</span>
           </a>
 
           {/* Pill 2: Location */}
@@ -109,36 +109,36 @@ export const Hero: React.FC<HeroProps> = ({
             type="button"
             onClick={onOpenLocation}
             id="hero-pill-location"
-            className="glass p-3.5 sm:p-4 rounded-xl border border-white/10 hover:border-[#D4AF37]/50 flex flex-col items-center min-w-[140px] transition-all group cursor-pointer shadow-md"
+            className="glass p-3 sm:p-4 rounded-xl border border-white/10 hover:border-[#D4AF37]/50 flex flex-col items-center flex-1 sm:min-w-[130px] transition-all group cursor-pointer shadow-md"
           >
-            <span className="text-[10px] text-neutral-400 uppercase font-bold tracking-widest group-hover:text-[#D4AF37] transition-colors">
+            <span className="text-[9px] sm:text-[10px] text-neutral-400 uppercase font-bold tracking-widest group-hover:text-[#D4AF37] transition-colors">
               Location
             </span>
-            <span className="text-lg sm:text-xl font-bold text-white mt-0.5">Southwater, TF3</span>
+            <span className="text-base sm:text-xl font-bold text-white mt-0.5">Southwater, TF3</span>
           </button>
 
           {/* Pill 3: Sitting Time / Rating */}
           <a
             href="#reviews"
             id="hero-pill-rating"
-            className="glass p-3.5 sm:p-4 rounded-xl border border-white/10 hover:border-[#D4AF37]/50 flex flex-col items-center min-w-[140px] transition-all group shadow-md"
+            className="glass p-3 sm:p-4 rounded-xl border border-white/10 hover:border-[#D4AF37]/50 flex flex-col items-center col-span-2 sm:col-span-1 sm:min-w-[130px] transition-all group shadow-md"
           >
-            <span className="text-[10px] text-neutral-400 uppercase font-bold tracking-widest group-hover:text-[#D4AF37] transition-colors">
+            <span className="text-[9px] sm:text-[10px] text-neutral-400 uppercase font-bold tracking-widest group-hover:text-[#D4AF37] transition-colors">
               Sitting Time
             </span>
-            <span className="text-lg sm:text-xl font-bold text-white mt-0.5">1h 45m Sitting</span>
+            <span className="text-base sm:text-xl font-bold text-white mt-0.5">1h 45m Sitting</span>
           </a>
         </div>
 
         {/* Primary Call to Action & Secondary Action with DesignMyNight Connection */}
-        <div className="mt-8 flex flex-col items-center gap-3 w-full">
-          <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-4 w-full max-w-md sm:max-w-none">
+        <div className="mt-8 flex flex-col items-center gap-3 w-full max-w-full">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 sm:gap-4 w-full max-w-md sm:max-w-none px-2">
             {/* Primary CTA: Large "Book a Table" button */}
             <button
               type="button"
               onClick={onOpenBooking}
               id="hero-primary-book-btn"
-              className="gold-gradient text-black px-8 sm:px-10 py-4 rounded-lg font-black uppercase tracking-widest text-xs sm:text-sm gold-glow active:scale-95 transition-transform flex items-center justify-center gap-2.5 cursor-pointer shadow-xl"
+              className="gold-gradient text-black px-6 sm:px-10 py-3.5 sm:py-4 rounded-lg font-black uppercase tracking-widest text-xs sm:text-sm gold-glow active:scale-95 transition-transform flex items-center justify-center gap-2.5 cursor-pointer shadow-xl"
             >
               <Calendar className="w-4 h-4 text-black stroke-[2.5]" />
               <span>Book a Table</span>
@@ -150,7 +150,7 @@ export const Hero: React.FC<HeroProps> = ({
               type="button"
               onClick={onViewMenu}
               id="hero-secondary-menu-btn"
-              className="border border-[#D4AF37] text-[#D4AF37] hover:bg-[#D4AF37] hover:text-black px-6 sm:px-8 py-4 rounded-lg font-bold text-xs sm:text-sm uppercase tracking-widest transition-all flex items-center justify-center gap-2 cursor-pointer"
+              className="border border-[#D4AF37] text-[#D4AF37] hover:bg-[#D4AF37] hover:text-black px-5 sm:px-8 py-3.5 sm:py-4 rounded-lg font-bold text-xs sm:text-sm uppercase tracking-widest transition-all flex items-center justify-center gap-2 cursor-pointer"
             >
               <Utensils className="w-4 h-4" />
               <span>Explore 100+ Live Dishes</span>
@@ -158,7 +158,7 @@ export const Hero: React.FC<HeroProps> = ({
           </div>
 
           {/* DesignMyNight Live Booking Portal Connection Signpost */}
-          <div className="flex items-center gap-2 text-xs text-neutral-400 pt-1">
+          <div className="flex flex-wrap items-center justify-center gap-1.5 sm:gap-2 text-xs text-neutral-400 pt-1 text-center max-w-full px-2">
             <span className="inline-block w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
             <span>Instant Reservation Engine &bull;</span>
             <a

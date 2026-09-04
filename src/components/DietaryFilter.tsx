@@ -1,4 +1,5 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { 
   Utensils, 
   Search, 
@@ -37,6 +38,17 @@ export const DietaryFilter: React.FC<DietaryFilterProps> = ({ onOpenBooking }) =
   const [veganOnly, setVeganOnly] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [activeDishModal, setActiveDishModal] = useState<Dish | null>(null);
+
+  // Lock background scroll when dish preview modal is open
+  useEffect(() => {
+    if (activeDishModal) {
+      const originalOverflow = document.body.style.overflow;
+      document.body.style.overflow = 'hidden';
+      return () => {
+        document.body.style.overflow = originalOverflow;
+      };
+    }
+  }, [activeDishModal]);
 
   // Filtered dishes memoized for instant zero-lag rendering
   const filteredDishes = useMemo(() => {
@@ -85,7 +97,7 @@ export const DietaryFilter: React.FC<DietaryFilterProps> = ({ onOpenBooking }) =
     Boolean(searchQuery);
 
   return (
-    <section id="menu-section" className="py-16 lg:py-24 bg-[#121212] border-b border-white/10">
+    <section id="menu-section" className="py-16 lg:py-24 bg-[#121212] border-b border-white/10 w-full max-w-full overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-10">
@@ -142,9 +154,9 @@ export const DietaryFilter: React.FC<DietaryFilterProps> = ({ onOpenBooking }) =
             </div>
           </div>
 
-          {/* Cuisine Category Tabs (Mobile scrollable) */}
-          <div className="overflow-x-auto no-scrollbar pb-1 -mx-4 px-4 sm:mx-0 sm:px-0">
-            <div className="flex items-center gap-2 min-w-max">
+          {/* Cuisine Category Tabs (Mobile scrollable without overflowing document) */}
+          <div className="overflow-x-auto no-scrollbar pb-1 w-full max-w-full">
+            <div className="flex items-center gap-2 min-w-max py-0.5">
               {CATEGORIES.map((cat) => {
                 const isActive = selectedCategory === cat;
                 return (
@@ -365,17 +377,21 @@ export const DietaryFilter: React.FC<DietaryFilterProps> = ({ onOpenBooking }) =
         </div>
       </div>
 
-      {/* Dish Quick-View Lightbox Modal */}
-      {activeDishModal && (
+      {/* Dish Quick-View Lightbox Modal rendered via Portal to document.body */}
+      {activeDishModal && typeof document !== 'undefined' && createPortal(
         <div 
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-200"
+          className="fixed inset-0 z-[100] flex items-center justify-center p-3 sm:p-4 bg-black/85 backdrop-blur-md overflow-y-auto animate-in fade-in duration-200"
           onClick={() => setActiveDishModal(null)}
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="modal-dish-title"
         >
           <div 
-            className="relative w-full max-w-lg rounded-2xl bg-neutral-900 border border-[#D4AF37]/40 shadow-2xl overflow-hidden"
+            className="relative w-full max-w-lg rounded-2xl bg-neutral-900 border border-[#D4AF37]/40 shadow-2xl overflow-hidden my-auto max-h-[92dvh] flex flex-col animate-in zoom-in-95 duration-200"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="relative h-64 w-full bg-neutral-950">
+            {/* Top Image Banner */}
+            <div className="relative h-44 sm:h-56 w-full bg-neutral-950 shrink-0">
               <img
                 src={activeDishModal.image}
                 alt={activeDishModal.name}
@@ -384,74 +400,80 @@ export const DietaryFilter: React.FC<DietaryFilterProps> = ({ onOpenBooking }) =
               <button
                 type="button"
                 onClick={() => setActiveDishModal(null)}
-                className="absolute top-3 right-3 w-8 h-8 rounded-full bg-neutral-900/90 text-white flex items-center justify-center hover:bg-neutral-800 transition-colors"
+                aria-label="Close dish preview"
+                className="absolute top-3 right-3 w-9 h-9 rounded-full bg-neutral-950/80 text-white flex items-center justify-center hover:bg-neutral-800 transition-colors border border-white/10 cursor-pointer shadow-lg z-10"
               >
                 <X className="w-4 h-4" />
               </button>
-              <div className="absolute bottom-3 left-3 bg-neutral-950/80 backdrop-blur-md px-3 py-1 rounded-full text-xs font-semibold text-[#D4AF37] border border-[#D4AF37]/30">
+              <div className="absolute bottom-3 left-3 bg-neutral-950/85 backdrop-blur-md px-3 py-1 rounded-full text-xs font-semibold text-[#D4AF37] border border-[#D4AF37]/30">
                 {activeDishModal.station}
               </div>
             </div>
 
-            <div className="p-6">
-              <div className="flex items-center gap-2 mb-2">
-                <span className="text-xs font-semibold text-neutral-400 uppercase tracking-wider">
-                  {activeDishModal.category}
-                </span>
-                {activeDishModal.highlight && (
-                  <span className="text-[10px] font-bold bg-[#D4AF37] text-neutral-950 px-2 py-0.5 rounded">
-                    {activeDishModal.highlight}
+            {/* Scrollable Content Body */}
+            <div className="p-4 sm:p-6 overflow-y-auto flex-1 flex flex-col justify-between">
+              <div>
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="text-xs font-semibold text-neutral-400 uppercase tracking-wider">
+                    {activeDishModal.category}
                   </span>
-                )}
-              </div>
+                  {activeDishModal.highlight && (
+                    <span className="text-[10px] font-bold bg-[#D4AF37] text-neutral-950 px-2 py-0.5 rounded">
+                      {activeDishModal.highlight}
+                    </span>
+                  )}
+                </div>
 
-              <h3 className="font-serif text-2xl font-bold text-white mb-2">
-                {activeDishModal.name}
-              </h3>
+                <h3 id="modal-dish-title" className="font-serif text-xl sm:text-2xl font-bold text-white mb-2">
+                  {activeDishModal.name}
+                </h3>
 
-              <p className="text-sm text-neutral-300 leading-relaxed mb-6">
-                {activeDishModal.description}
-              </p>
+                <p className="text-xs sm:text-sm text-neutral-300 leading-relaxed mb-4 sm:mb-6">
+                  {activeDishModal.description}
+                </p>
 
-              <div className="space-y-3 mb-6 bg-neutral-950 p-3.5 rounded-xl border border-neutral-800 text-xs">
-                <div className="flex justify-between items-center">
-                  <span className="text-neutral-400">Dietary Profile:</span>
-                  <div className="flex gap-1.5">
-                    {activeDishModal.dietary.isHalal && <span className="text-emerald-400 font-bold">100% Halal</span>}
-                    {activeDishModal.dietary.isVegetarian && <span className="text-green-400 font-bold">• Vegetarian</span>}
-                    {activeDishModal.dietary.isGlutenFree && <span className="text-amber-400 font-bold">• Gluten-Free</span>}
-                    {activeDishModal.dietary.isVegan && <span className="text-teal-400 font-bold">• Vegan</span>}
+                <div className="space-y-2.5 sm:space-y-3 mb-5 sm:mb-6 bg-neutral-950 p-3 sm:p-3.5 rounded-xl border border-neutral-800 text-xs">
+                  <div className="flex justify-between items-center gap-2">
+                    <span className="text-neutral-400 shrink-0">Dietary Profile:</span>
+                    <div className="flex flex-wrap gap-1.5 justify-end">
+                      {activeDishModal.dietary.isHalal && <span className="text-emerald-400 font-bold">100% Halal</span>}
+                      {activeDishModal.dietary.isVegetarian && <span className="text-green-400 font-bold">• Vegetarian</span>}
+                      {activeDishModal.dietary.isGlutenFree && <span className="text-amber-400 font-bold">• Gluten-Free</span>}
+                      {activeDishModal.dietary.isVegan && <span className="text-teal-400 font-bold">• Vegan</span>}
+                    </div>
+                  </div>
+                  <div className="flex justify-between items-center gap-2">
+                    <span className="text-neutral-400 shrink-0">Buffet Access:</span>
+                    <span className="text-white font-medium text-right">Included in all lunch & dinner sittings</span>
                   </div>
                 </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-neutral-400">Buffet Access:</span>
-                  <span className="text-white font-medium">Included in all lunch & dinner sittings</span>
-                </div>
               </div>
 
-              <div className="flex gap-3">
+              {/* Action Buttons: Book Table & Close */}
+              <div className="flex flex-col xs:flex-row gap-2.5 sm:gap-3 pt-2 shrink-0 border-t border-white/5 mt-auto">
                 <button
                   type="button"
                   onClick={() => {
                     setActiveDishModal(null);
                     onOpenBooking();
                   }}
-                  className="flex-1 py-3 rounded-xl bg-gold-gradient hover:bg-gold-gradient-hover text-neutral-950 font-bold text-sm flex items-center justify-center gap-2 shadow-lg"
+                  className="flex-1 py-3 px-4 rounded-xl gold-gradient hover:bg-gold-gradient-hover text-neutral-950 font-black text-xs sm:text-sm uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg active:scale-95 transition-transform cursor-pointer min-h-[44px]"
                 >
-                  <Calendar className="w-4 h-4 text-neutral-950 stroke-[2.5]" />
+                  <Calendar className="w-4 h-4 text-neutral-950 stroke-[2.5] shrink-0" />
                   <span>Book Table For This Dish</span>
                 </button>
                 <button
                   type="button"
                   onClick={() => setActiveDishModal(null)}
-                  className="px-4 py-3 rounded-xl bg-neutral-800 text-neutral-300 hover:text-white text-sm font-semibold"
+                  className="px-5 py-3 rounded-xl bg-neutral-800 hover:bg-neutral-700 text-neutral-200 hover:text-white text-xs sm:text-sm font-bold uppercase tracking-wider transition-colors cursor-pointer min-h-[44px]"
                 >
                   Close
                 </button>
               </div>
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </section>
   );

@@ -14,22 +14,22 @@ export const Logo: React.FC<LogoProps> = ({
   branchSubtitle = 'Telford Flagship • Southwater',
 }) => {
   const iconDimensions = {
-    sm: 'w-8 h-8',
-    md: 'w-10 h-10',
-    lg: 'w-12 h-12',
+    sm: 'w-7 h-7 sm:w-8 sm:h-8',
+    md: 'w-8 h-8 sm:w-10 sm:h-10',
+    lg: 'w-10 h-10 sm:w-12 sm:h-12',
   }[size];
 
   const titleSizes = {
-    sm: 'text-base sm:text-lg',
-    md: 'text-lg sm:text-xl',
-    lg: 'text-2xl sm:text-3xl',
+    sm: 'text-sm sm:text-base',
+    md: 'text-sm sm:text-lg md:text-xl',
+    lg: 'text-xl sm:text-2xl md:text-3xl',
   }[size];
 
   return (
-    <div className={`flex items-center gap-3 select-none ${className}`}>
+    <div className={`flex items-center gap-2 sm:gap-3 select-none min-w-0 ${className}`}>
       {/* Luxury Geometric Crest Emblem */}
       <div className={`relative ${iconDimensions} rounded-xl gold-gradient p-[1.5px] shadow-lg shadow-[#D4AF37]/20 shrink-0 group-hover:shadow-[#D4AF37]/40 transition-shadow`}>
-        <div className="w-full h-full bg-[#121212] rounded-[10px] flex items-center justify-center relative overflow-hidden">
+        <div className="w-full h-full bg-[#121212] rounded-[8px] sm:rounded-[10px] flex items-center justify-center relative overflow-hidden">
           {/* Subtle Ambient Radial Shimmer */}
           <div className="absolute inset-0 bg-gradient-to-tr from-[#D4AF37]/20 via-transparent to-[#F3E5AB]/30" />
 
@@ -38,7 +38,7 @@ export const Logo: React.FC<LogoProps> = ({
             viewBox="0 0 40 40"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
-            className="w-6 h-6 text-[#D4AF37]"
+            className="w-5 h-5 sm:w-6 sm:h-6 text-[#D4AF37]"
           >
             {/* Outer Ring Segment representing the World Kitchen nexus */}
             <circle
@@ -80,21 +80,21 @@ export const Logo: React.FC<LogoProps> = ({
       </div>
 
       {/* Typography Lockup */}
-      <div className="flex flex-col">
-        <div className="flex items-baseline gap-1.5 tracking-tight">
-          <span className={`${titleSizes} font-black text-white tracking-wider`}>
+      <div className="flex flex-col min-w-0">
+        <div className="flex items-baseline gap-1 sm:gap-1.5 tracking-tight min-w-0">
+          <span className={`${titleSizes} font-black text-white tracking-wider shrink-0`}>
             UMAMI
           </span>
-          <span className={`${titleSizes} font-bold text-[#D4AF37] tracking-wider`}>
+          <span className={`${titleSizes} font-bold text-[#D4AF37] tracking-wider truncate`}>
             WORLD KITCHEN
           </span>
         </div>
 
         {showSubtitle && (
-          <div className="flex items-center gap-1.5 text-[10px] sm:text-[11px] font-semibold uppercase tracking-wider text-neutral-400">
-            <span className="text-[#D4AF37] font-bold">100+ FLAVOURS</span>
-            <span className="text-neutral-600">•</span>
-            <span className="truncate">{branchSubtitle}</span>
+          <div className="flex items-center gap-1 sm:gap-1.5 text-[9px] sm:text-[11px] font-semibold uppercase tracking-wider text-neutral-400 min-w-0">
+            <span className="text-[#D4AF37] font-bold shrink-0">100+ FLAVOURS</span>
+            <span className="text-neutral-600 shrink-0">•</span>
+            <span className="truncate max-w-[130px] xs:max-w-[180px] sm:max-w-none">{branchSubtitle}</span>
           </div>
         )}
       </div>

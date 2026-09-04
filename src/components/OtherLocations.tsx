@@ -42,7 +42,7 @@ export const OtherLocations: React.FC<OtherLocationsProps> = ({
     : UK_BRANCHES_DATA.filter((b) => b.id === selectedCity || b.city.toLowerCase().includes(selectedCity.toLowerCase()));
 
   return (
-    <section className="py-12 sm:py-20 bg-[#121212] text-neutral-100 relative" id="locations-page">
+    <section className="py-12 sm:py-20 bg-[#121212] text-neutral-100 relative w-full max-w-full overflow-hidden" id="locations-page">
       {/* Background Ambient Accents */}
       <div className="absolute top-0 right-0 w-96 h-96 bg-[#D4AF37]/5 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-0 left-0 w-96 h-96 bg-neutral-800/30 rounded-full blur-3xl pointer-events-none" />
@@ -100,30 +100,30 @@ export const OtherLocations: React.FC<OtherLocationsProps> = ({
           </p>
 
           {/* Primary View Switcher Tabs */}
-          <div className="flex items-center justify-center gap-3 mt-8">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-2.5 sm:gap-3 mt-8 max-w-lg mx-auto w-full px-2">
             <button
               type="button"
               onClick={() => setActiveTab('telford')}
-              className={`px-5 py-2.5 rounded-xl text-xs sm:text-sm font-black uppercase tracking-wider flex items-center gap-2 transition-all cursor-pointer ${
+              className={`px-4 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm font-black uppercase tracking-wider flex items-center justify-center gap-2 transition-all cursor-pointer ${
                 activeTab === 'telford'
-                  ? 'gold-gradient text-black shadow-lg shadow-[#D4AF37]/20 scale-105'
+                  ? 'gold-gradient text-black shadow-lg shadow-[#D4AF37]/20 sm:scale-105'
                   : 'glass text-neutral-300 hover:text-white border border-white/10'
               }`}
             >
-              <MapPin className="w-4 h-4" />
+              <MapPin className="w-4 h-4 shrink-0" />
               <span>Telford Flagship & Parking (TF3)</span>
             </button>
 
             <button
               type="button"
               onClick={() => setActiveTab('all')}
-              className={`px-5 py-2.5 rounded-xl text-xs sm:text-sm font-black uppercase tracking-wider flex items-center gap-2 transition-all cursor-pointer ${
+              className={`px-4 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm font-black uppercase tracking-wider flex items-center justify-center gap-2 transition-all cursor-pointer ${
                 activeTab === 'all'
-                  ? 'gold-gradient text-black shadow-lg shadow-[#D4AF37]/20 scale-105'
+                  ? 'gold-gradient text-black shadow-lg shadow-[#D4AF37]/20 sm:scale-105'
                   : 'glass text-neutral-300 hover:text-white border border-white/10'
               }`}
             >
-              <Building2 className="w-4 h-4" />
+              <Building2 className="w-4 h-4 shrink-0" />
               <span>All UK Branches ({UK_BRANCHES_DATA.length})</span>
             </button>
           </div>

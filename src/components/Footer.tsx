@@ -32,7 +32,7 @@ export const Footer: React.FC<FooterProps> = ({
   };
 
   return (
-    <footer className="bg-[#0c0c0c] text-neutral-400 border-t border-white/10 pt-16 pb-28 lg:pb-16 text-xs">
+    <footer className="bg-[#0c0c0c] text-neutral-400 border-t border-white/10 pt-16 pb-28 lg:pb-16 text-xs w-full max-w-full overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* National Branch Showcase Banner with Expansion Vision */}
         <div className="p-6 sm:p-8 rounded-2xl glass border border-white/10 mb-16 shadow-2xl">
@@ -290,7 +290,7 @@ export const Footer: React.FC<FooterProps> = ({
         </div>
 
         {/* Bottom Bar with User Credit */}
-        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-neutral-500 text-[11px]">
+        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-neutral-500 text-[11px] text-center sm:text-left">
           <div>
             © {new Date().getFullYear()} Umami World Kitchen (Telford Branch). All rights reserved. 100% Halal Certified Meats.
           </div>
