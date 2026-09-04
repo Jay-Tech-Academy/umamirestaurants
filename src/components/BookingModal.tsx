@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   X, 
   Calendar, 
@@ -18,6 +18,7 @@ interface BookingModalProps {
   isOpen: boolean;
   onClose: () => void;
   onOpenLocation: () => void;
+  branchName?: string;
 }
 
 const TIME_SLOTS = [
@@ -29,9 +30,22 @@ export const BookingModal: React.FC<BookingModalProps> = ({
   isOpen,
   onClose,
   onOpenLocation,
+  branchName = 'Telford (Southwater)',
 }) => {
   // Steps: 1 = Details, 2 = Confirmation
   const [step, setStep] = useState<1 | 2>(1);
+
+  // Prevent background page from scrolling when modal is open
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isOpen]);
 
   // Form State
   const [selectedDate, setSelectedDate] = useState(() => {
@@ -94,7 +108,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                 {step === 1 ? 'Instant Table Booking' : 'Booking Confirmed!'}
               </h3>
               <p className="text-xs text-[#D4AF37] font-medium">
-                Umami World Kitchen • Telford Southwater
+                Umami World Kitchen • {branchName}
               </p>
             </div>
           </div>
